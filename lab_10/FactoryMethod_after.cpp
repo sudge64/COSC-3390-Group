@@ -13,6 +13,7 @@ class PDFReport : public Report {
 public:
     void generate() override {
         std::cout << "Generating a PDF report..." << std::endl;
+        std::cout << "PDF report generated" << std::endl;
         // PDF report generation logic here
     }
 };
@@ -21,6 +22,7 @@ class CSVReport : public Report {
 public:
     void generate() override {
         std::cout << "Generating a CSV report..." << std::endl;
+        std::cout << "CSV report generated" << std::endl;
         // CSV report generation logic here
     }
 };
