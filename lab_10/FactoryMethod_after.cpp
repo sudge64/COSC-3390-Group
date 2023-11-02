@@ -53,9 +53,9 @@ class CSVReportFactory : public reportFactory{
 int main() {
     // Client code
     std::string reportType;
-    Report *report;
+    Report* report;
     // Create "factory" pointer to ReportFactory
-    reportFactory *factory = new reportFactory();
+    reportFactory* factory = new reportFactory();
     
     // User input: Choose the type of report to generate
     std::cout << "Choose the type of report (PDF/CSV): ";
@@ -65,8 +65,8 @@ int main() {
         // report = new PDFReport();// instead, assign to factory a new PDFReportFactory
         factory = new PDFReportFactory();// instead, assign to factory a new PDFReportFactory
     } else if (reportType == "CSV") {
-        // report = new CSVReport();// instead, assign to factory a new PDFReportFactory
-        factory = new CSVReportFactory();// instead, assign to factory a new PDFReportFactory
+        // report = new CSVReport();// instead, assign to factory a new CSVReportFactory
+        factory = new CSVReportFactory();// instead, assign to factory a new CSVReportFactory
     } else {
         std::cout << "Invalid report type." << std::endl;
         return 1;
