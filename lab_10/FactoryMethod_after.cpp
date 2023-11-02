@@ -32,20 +32,20 @@ public:
 class reportFactory : public Report{
     public:
         virtual ~reportFactory(){};
-        virtual Report* createReport() const = 0;
+        virtual Report* generate() const = 0;
 };
 
 // Concrete Factories: PDFReportFactory and CSVReportFactory
 class PDFReportFactory : public reportFactory{
     public:
-        Report* createReport() const override{
+        Report* generate() const override{
             return new PDFReportFactory();
         }
 };
 
 class CSVReportFactory : public reportFactory{
     public:
-        Report* createReport() const override{
+        Report* generate() const override{
             return new CSVReportFactory();
         }
 };
@@ -63,20 +63,26 @@ int main() {
 
     if (reportType == "PDF") {
         // report = new PDFReport();// instead, assign to factory a new PDFReportFactory
-        factory = new PDFReportFactory();// instead, assign to factory a new PDFReportFactory
+        
+        // instead, assign to factory a new PDFReportFactory
+        factory = new PDFReportFactory();
     } else if (reportType == "CSV") {
         // report = new CSVReport();// instead, assign to factory a new CSVReportFactory
-        factory = new CSVReportFactory();// instead, assign to factory a new CSVReportFactory
+        
+        // instead, assign to factory a new CSVReportFactory
+        factory = new CSVReportFactory();
     } else {
         std::cout << "Invalid report type." << std::endl;
         return 1;
     }
 
-    // report must receive return from method "factory->createReport()"
-    report = factory->createReport();
+    // report must receive return from method "factory->generate()"
+    report = factory->generate();
 
+    /*
     // Generate the selected report
     report->generate();
+    */
 
     // Clean up
     delete report;
