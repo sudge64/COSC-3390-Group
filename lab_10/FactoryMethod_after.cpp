@@ -5,7 +5,6 @@
 class Report {
 public:
     virtual void generate() = 0;
-    virtual std::string Operation() const = 0;
 };
 
 // Concrete Products: PDF Report 
@@ -28,26 +27,27 @@ public:
     }
 };
 
-// Abstract Factory: ReportFactory
-class reportFactory : public Report{
+// Abstract Factory: ReportFactory, with virtual method getReport()
+class reportFactory{
     public:
-        virtual ~reportFactory(){};
-        virtual Report* generate() const = 0;
+        //virtual ~reportFactory(){};
+        virtual Report* getReport() = 0;
 };
 
-// Concrete Factories: PDFReportFactory and CSVReportFactory
+// Concrete Factories: PDFReportFactory and CSVReportFactory, with implementation of getReport()
 class PDFReportFactory : public reportFactory{
     public:
-        Report* generate() const override{
-            return new PDFReportFactory();
+        Report* getReport() override{
+            return new PDFReport();
         }
 };
 
 class CSVReportFactory : public reportFactory{
     public:
-        Report* generate() const override{
-            return new CSVReportFactory();
+        Report* getReport() override{
+            return new CSVReport();
         }
+
 };
 
 int main() {
@@ -55,20 +55,16 @@ int main() {
     std::string reportType;
     Report* report;
     // Create "factory" pointer to ReportFactory
-    reportFactory* factory = new reportFactory();
+    reportFactory* factory;
     
     // User input: Choose the type of report to generate
     std::cout << "Choose the type of report (PDF/CSV): ";
     std::cin >> reportType;
 
     if (reportType == "PDF") {
-        // report = new PDFReport();// instead, assign to factory a new PDFReportFactory
-        
         // instead, assign to factory a new PDFReportFactory
         factory = new PDFReportFactory();
     } else if (reportType == "CSV") {
-        // report = new CSVReport();// instead, assign to factory a new CSVReportFactory
-        
         // instead, assign to factory a new CSVReportFactory
         factory = new CSVReportFactory();
     } else {
@@ -76,13 +72,11 @@ int main() {
         return 1;
     }
 
-    // report must receive return from method "factory->generate()"
-    report = factory->generate();
+    // report must receive return from method "factory->createReports()"
+    report = factory->getReport();
 
-    /*
     // Generate the selected report
     report->generate();
-    */
 
     // Clean up
     delete report;
