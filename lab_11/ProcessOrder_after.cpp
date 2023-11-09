@@ -1,64 +1,56 @@
 #include <iostream>
 
-class Order {
+class Product {
+public:
+    double getPrice(int productId, int quantity) {
+        double price = 1.5f * quantity;
+        return price;
+    }
+};
+
+class PaymentProcessor {
+public:
+    void chargeCustomer(double amount) {
+        std::cout << "Customer charged: $" << amount << std::endl;
+    }
+};
+
+class InventoryManager {
+public:
+    void updateInventory(int productId, int quantity) {
+        std::cout << "Inventory updated for product " << productId << std::endl;
+    }
+};
+
+class OrderProcessor {
+private:
+    Product product;
+    PaymentProcessor paymentProcessor;
+    InventoryManager inventoryManager;
+
+    void sendConfirmation() {
+        std::cout << "Order confirmation sent" << std::endl;
+    }
+
 public:
     void processOrder(int productId, int quantity) {
-        // Fetch product details from the database
-        // ...
+        //validate, get price, charge to customer,
+        //update inventory, send confirmation
 
-        // Validate the order quantity
         if (quantity <= 0) {
             std::cout << "Invalid quantity. Order not processed." << std::endl;
             return;
         }
 
-        // Calculate the total price
-        double price = calculatePrice(productId, quantity);
-
-        // Charge the customer
-        chargeCustomer(price);
-
-        // Update inventory
-        updateInventory(productId, quantity);
-
-        // Send order confirmation
+        double price = product.getPrice(productId, quantity);
+        paymentProcessor.chargeCustomer(price);
+        inventoryManager.updateInventory(productId, quantity);
         sendConfirmation();
-    }
-
-private:
-    double calculatePrice(int productId, int quantity) {
-        // Fetch product price from the database
-        // ...
-
-        // Calculate the total price
-        double price = 1.5f * quantity; /* some calculation */;
-        return price;
-    }
-
-    void chargeCustomer(double amount) {
-        // Implement logic to charge the customer
-        // ...
-        std::cout << "Customer charged: $" << amount << std::endl;
-    }
-
-    void updateInventory(int productId, int quantity) {
-        // Implement logic to update inventory
-        // ...
-        std::cout << "Inventory updated for product " << productId << std::endl;
-    }
-
-    void sendConfirmation() {
-        // Implement logic to send order confirmation
-        // ...
-        std::cout << "Order confirmation sent" << std::endl;
     }
 };
 
 int main() {
-    Order myOrder;
-    int productID, quantity;
-    // myOrder.processOrder(1, 3);
-    myOrder.processOrder(productID, quantity);
-
+    OrderProcessor orderProcessor;
+    orderProcessor.processOrder(1, 3);
     return 0;
 }
