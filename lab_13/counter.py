@@ -18,9 +18,14 @@ def open_file(file_input):
     num_lines = 0
     num_class = 0
     num_comments = 0
+    class_tracker = [0, 0]
+    class_lines = 0
+    class_comments = 0
     for current in list_of_lines:
         if re.search('^class.*', current):
-            class_counter(current, list_of_lines)
+            class_tracker[0], class_tracker[1] = class_counter(current, list_of_lines)
+            class_lines += class_tracker[0]
+            class_comments += class_tracker[1]
             num_class += 1
         if re.search(' *//.*', current):
             num_comments += 1
@@ -29,11 +34,12 @@ def open_file(file_input):
             num_lines -= 1
         if re.search('^int main.*', current):
             print("FOUND! Main")
+            break
         num_lines += 1
 
     comment_density = (num_comments / num_lines) * 100
-    line_average = (num_comments / num_lines)
-    comment_average = (num_comments / num_lines)
+    line_average = (class_lines / num_class)
+    comment_average = (class_comments / num_class)
 
     print("\nTotals:\n")
     print(F"\tClasses:\t\t{num_class}")
@@ -67,6 +73,7 @@ def class_counter(current, list_of_lines):
     print(F"\tLines Count: {class_lines}", end="")
     print(F", Comments Count: {class_comments}", end="")
     print(F", Comments density: {comment_density} %")
+    return class_lines, class_comments
 
 
 def main(argv):
