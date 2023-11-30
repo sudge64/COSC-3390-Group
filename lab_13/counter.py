@@ -24,8 +24,12 @@ def open_file(file_input):
     for current in list_of_lines:
         if re.search('^class.*', current):
             class_tracker[0], class_tracker[1] = class_counter(current, list_of_lines)
+            print(class_tracker[0])
+            print(class_tracker[1])
             class_lines += class_tracker[0]
+            print(class_lines)
             class_comments += class_tracker[1]
+            print(class_comments)
             num_class += 1
         if re.search(' *//.*', current):
             num_comments += 1
