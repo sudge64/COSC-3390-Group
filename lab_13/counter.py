@@ -18,66 +18,82 @@ def open_file(file_input):
     num_lines = 0
     num_class = 0
     num_comments = 0
-    class_tracker = [0, 0]
     class_lines = 0
     class_comments = 0
     for current in list_of_lines:
-        if re.search('^class.*', current):
-            class_tracker[0], class_tracker[1] = class_counter(current, list_of_lines)
-            print(class_tracker[0])
-            print(class_tracker[1])
-            class_lines += class_tracker[0]
+        if re.search('^class.*', current) is True:
+            class_lines += class_counter_line(current, list_of_lines)
             print(class_lines)
-            class_comments += class_tracker[1]
+            class_comments += class_counter_comment(current, list_of_lines)
             print(class_comments)
             num_class += 1
-        if re.search(' *//.*', current):
+        if re.search(' *//.*', current) is True:
             num_comments += 1
             num_lines -= 1
-        if re.search('^\s*$', current):
+        if re.search('^\s*$', current) is True:
             num_lines -= 1
-        if re.search('^int main.*', current):
+        if re.search('^int main.*', current) is True:
             print("FOUND! Main")
             break
         num_lines += 1
-
-    comment_density = (num_comments / num_lines) * 100
-    line_average = (class_lines / num_class)
-    comment_average = (class_comments / num_class)
 
     print("\nTotals:\n")
     print(F"\tClasses:\t\t{num_class}")
     print(F"\tLines Count:\t\t{num_lines}")
     print(F"\tComments Count:\t\t{num_comments}")
-    print(F"\tComments density:\t{comment_density} %")
-    print(F"\tLines Avg:\t\t{line_average}")
-    print(F"\tComments Avg:\t\t{comment_average}")
+    print(F"\tComments density:\t{(num_comments / num_lines) * 100} %")
+    print(F"\tLines Avg:\t\t{(class_lines / num_class)}")
+    print(F"\tComments Avg:\t\t{class_comments / num_class}")
 
 
-def class_counter(current, list_of_lines):
+def class_counter_line(current, list_of_lines):
     """
-    Function to count lines inside of classes
+    Function to count lines inside of classes and return the number of lines
     """
     class_name = current
     class_lines = 0
     class_comments = 0
 
     for current in list_of_lines:
-        if re.search(' *//.*', current):
+        if re.search(' *//.*', current) is True:
             class_comments += 1
             class_lines -= 1
-        if re.search('^\s*$', current):
+        if re.search('^\s*$', current) is True:
             class_lines -= 1
-        if re.search('^};*', current):
+        if re.search('^};*', current) is True:
             break
         class_lines += 1
 
-    comment_density = (class_comments / class_lines) * 100
     print(F"\n{class_name}")
     print(F"\tLines Count: {class_lines}", end="")
     print(F", Comments Count: {class_comments}", end="")
-    print(F", Comments density: {comment_density} %")
-    return class_lines, class_comments
+    print(F", Comments density: {(class_comments / class_lines) * 100} %")
+    return class_lines
+
+
+def class_counter_comment(current, list_of_lines):
+    """
+    Function to count lines inside of classes and return the number of comments
+    """
+    class_name = current
+    class_lines = 0
+    class_comments = 0
+
+    for current in list_of_lines:
+        if re.search(' *//.*', current) is True:
+            class_comments += 1
+            class_lines -= 1
+        if re.search('^\s*$', current) is True:
+            class_lines -= 1
+        if re.search('^};*', current) is True:
+            break
+        class_lines += 1
+
+    print(F"\n{class_name}")
+    print(F"\tLines Count: {class_lines}", end="")
+    print(F", Comments Count: {class_comments}", end="")
+    print(F", Comments density: {(class_comments / class_lines) * 100} %")
+    return class_comments
 
 
 def main(argv):
