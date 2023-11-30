@@ -19,25 +19,21 @@ def open_file(file_input):
     num_class = 0
     num_comments = 0
     for current in list_of_lines:
-        # print(F"Line {num_lines}: {current}", end="")
         if re.search('^class.*', current):
-            # print("FOUND! Clacc")
-            class_counter(current, list_of_lines, num_lines)
+            class_counter(current, list_of_lines)
             num_class += 1
         if re.search(' *//.*', current):
-            # print("FOUND! Comment")
             num_comments += 1
             num_lines -= 1
         if re.search('^\s*$', current):
-            # print("FOUND! Nothing!")
             num_lines -= 1
         if re.search('^int main.*', current):
             print("FOUND! Main")
         num_lines += 1
 
     comment_density = (num_comments / num_lines) * 100
-    line_average = (num_comments / num_lines) * 100
-    comment_average = (num_comments / num_lines) * 100
+    line_average = (num_comments / num_lines)
+    comment_average = (num_comments / num_lines)
 
     print("\nTotals:\n")
     print(F"\tClasses:\t\t{num_class}")
@@ -48,7 +44,7 @@ def open_file(file_input):
     print(F"\tComments Avg:\t\t{comment_average}")
 
 
-def class_counter(current, list_of_lines, num_lines):
+def class_counter(current, list_of_lines):
     """
     Function to count lines inside of classes
     """
@@ -57,16 +53,12 @@ def class_counter(current, list_of_lines, num_lines):
     class_comments = 0
 
     for current in list_of_lines:
-        # print(F"Line {num_lines}: {current}", end="")
         if re.search(' *//.*', current):
-            # print("FOUND! Commentj")
             class_comments += 1
             class_lines -= 1
         if re.search('^\s*$', current):
-            # print("FOUND! Nothing!")
             class_lines -= 1
         if re.search('^};*', current):
-            # print("FOUND! End of class")
             break
         class_lines += 1
 
