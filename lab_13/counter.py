@@ -21,19 +21,20 @@ def open_file(file_input):
     class_lines = 0
     class_comments = 0
     for current in list_of_lines:
-        if re.search('^class.*', current) is True:
+        if re.search('^class.*', current):
             class_lines += class_counter_line(current, list_of_lines)
             print(class_lines)
             class_comments += class_counter_comment(current, list_of_lines)
             print(class_comments)
             num_class += 1
-        if re.search(' *//.*', current) is True:
+        if re.search(' *//.*', current):
             num_comments += 1
             num_lines -= 1
-        if re.search('^\s*$', current) is True:
+        if re.search('^\s*$', current):
             num_lines -= 1
-        if re.search('^int main.*', current) is True:
+        if re.search('^int main.*', current):
             print("FOUND! Main")
+            num_lines -= 1
             break
         num_lines += 1
 
@@ -55,12 +56,12 @@ def class_counter_line(current, list_of_lines):
     class_comments = 0
 
     for current in list_of_lines:
-        if re.search(' *//.*', current) is True:
+        if re.search(' *//.*', current):
             class_comments += 1
             class_lines -= 1
-        if re.search('^\s*$', current) is True:
+        if re.search('^\s*$', current):
             class_lines -= 1
-        if re.search('^};*', current) is True:
+        if re.search('^};*', current):
             break
         class_lines += 1
 
@@ -80,12 +81,12 @@ def class_counter_comment(current, list_of_lines):
     class_comments = 0
 
     for current in list_of_lines:
-        if re.search(' *//.*', current) is True:
+        if re.search(' *//.*', current):
             class_comments += 1
             class_lines -= 1
-        if re.search('^\s*$', current) is True:
+        if re.search('^\s*$', current):
             class_lines -= 1
-        if re.search('^};*', current) is True:
+        if re.search('^};*', current):
             break
         class_lines += 1
 
