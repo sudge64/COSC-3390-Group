@@ -49,7 +49,7 @@ def open_file(file_input):
 
 def class_counter_line(current, list_of_lines):
     """
-    Function to count lines inside of classes and return the number of lines
+    Function to count lines of classes and return the number of lines
     """
     class_name = current
     class_lines = 0
@@ -74,7 +74,7 @@ def class_counter_line(current, list_of_lines):
 
 def class_counter_comment(current, list_of_lines):
     """
-    Function to count lines inside of classes and return the number of comments
+    Function to count lines of classes and return the number of comments
     """
     class_name = current
     class_lines = 0
